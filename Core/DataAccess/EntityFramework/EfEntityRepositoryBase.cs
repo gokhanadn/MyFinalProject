@@ -9,17 +9,17 @@ using System.Text;
 namespace Core.DataAccess.EntityFramework
 {
     public class EfEntityRepositoryBase<TEntity, TContext> : IEntityRepository<TEntity>
-        where TEntity: class, IEntity, new()
-        where TContext: DbContext, new()
+        where TEntity : class, IEntity, new()
+        where TContext : DbContext, new()
     {
         public void Add(TEntity entity)
         {
-            // IDisposable pattern implementation of c#
+            //IDisposable pattern implementation of c#
             using (TContext context = new TContext())
             {
-                var addedEntity = context.Entry(entity); // Referansı yakala.
-                addedEntity.State = EntityState.Added; // Ekleme işlemini yap.
-                context.SaveChanges(); // Değişikleri kaydet.
+                var addedEntity = context.Entry(entity);
+                addedEntity.State = EntityState.Added;
+                context.SaveChanges();
             }
         }
 
@@ -27,9 +27,9 @@ namespace Core.DataAccess.EntityFramework
         {
             using (TContext context = new TContext())
             {
-                var deletedEntity = context.Entry(entity); // Referansı yakala.
-                deletedEntity.State = EntityState.Deleted; // Silme işlemini yap.
-                context.SaveChanges(); // Değişikleri kaydet.
+                var deletedEntity = context.Entry(entity);
+                deletedEntity.State = EntityState.Deleted;
+                context.SaveChanges();
             }
         }
 
@@ -45,8 +45,9 @@ namespace Core.DataAccess.EntityFramework
         {
             using (TContext context = new TContext())
             {
-                return filter == null ? context.Set<TEntity>().ToList() : context.Set<TEntity>().Where(filter).ToList();
-
+                return filter == null
+                    ? context.Set<TEntity>().ToList()
+                    : context.Set<TEntity>().Where(filter).ToList();
             }
         }
 
@@ -54,9 +55,9 @@ namespace Core.DataAccess.EntityFramework
         {
             using (TContext context = new TContext())
             {
-                var updatedEntity = context.Entry(entity); // Referansı yakala.
-                updatedEntity.State = EntityState.Modified; // Güncelleme işlemini yap.
-                context.SaveChanges(); // Değişikleri kaydet.
+                var updatedEntity = context.Entry(entity);
+                updatedEntity.State = EntityState.Modified;
+                context.SaveChanges();
             }
         }
     }
